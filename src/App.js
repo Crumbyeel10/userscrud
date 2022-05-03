@@ -28,29 +28,37 @@ const defaultValues = {first_name: "",last_name: "",email: "",birthday: "", pass
   useEffect (() => {
     
     getAllTodos()
-    
+
       .then(response => {
         setUsers(response.data)
       })
-      postNewUser(newUser)
-      .then((response) => {
-        setUsers([ response.data, ...users])
-        
-      })
-  },[newUser])
+    
+  },[])
+
+  useEffect (() => {
+    postNewUser(newUser)
+    .then((response) => {
+      setUsers([ response.data, ...users])
+      
+    })
+  },[newUser,users])
 
   
 
   useEffect (() => {
+    const filterTodo = (id) => {
+      const array = users.filter((item) => item.id !== id)
+     //  console.log(array[0])
+      return array
+   }
     if(idDelete){
       deleteUser(idDelete)
       .then((response) => {
         setUsers(filterTodo(idDelete))
         console.log("Usuario Eliminado")
       })
-    }
-    
-  },[idDelete])
+    }   
+  },[idDelete,users])
 
 
   useEffect(() => {
@@ -100,11 +108,11 @@ const defaultValues = {first_name: "",last_name: "",email: "",birthday: "", pass
 
 
 
-  const filterTodo = (id) => {
-     const array = users.filter((item) => item.id !== id)
-    //  console.log(array[0])
-     return array
-  }
+  // const filterTodo = (id) => {
+  //    const array = users.filter((item) => item.id !== id)
+  //   //  console.log(array[0])
+  //    return array
+  // }
   const handlerOnEditProduct = (data) => {
     setEditFormRes(data)
   }
